@@ -87,13 +87,7 @@ Sign in with the test numbers (90000 00001–05, code 123456). Make an admin wit
 ## Setting up Supabase
 
 1. **Create a project** at [supabase.com/dashboard](https://supabase.com/dashboard): pick **region Mumbai (ap-south-1)**, which is closest to Bengaluru, and save the database password.
-2. **Apply the schema.** From this folder:
-   ```bash
-   npx supabase login
-   npx supabase link --project-ref <your-project-ref>   # ref is in the project URL
-   npm run db:push                                      # migrations + catalogue seed
-   ```
-   Or, without the CLI: open **SQL Editor** and run each file in `supabase/migrations/` in name order, then `supabase/seed.sql`.
+2. **Create the tables (one paste).** Open **SQL Editor → New query**, paste the whole of [`supabase/setup.sql`](supabase/setup.sql) and press **Run**. It contains every migration plus the 47-vegetable catalogue, and refuses to run twice. (With the CLI instead: `npx supabase link --project-ref <ref>` then `npm run db:push`.) After changing migrations, regenerate the file with `npm run db:bundle`.
 3. **Turn on phone sign-in:** **Authentication → Sign In / Providers → Phone** → enable. Phone sign-in needs an SMS provider configured. Until you have a real one, choose Twilio and enter placeholder values. Test numbers never send an SMS.
 4. **Add test numbers** (same screen, *Test phone numbers and OTPs*). Enter them without `+`:
    ```

@@ -165,7 +165,8 @@
     "auth_rate_limited": "ತುಂಬಾ ಪ್ರಯತ್ನಗಳು. ಒಂದು ನಿಮಿಷ ಕಾದು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.",
     "demo_off": "ಡೆಮೊ ಲಾಗಿನ್ ಆಫ್ ಆಗಿದೆ.",
     "demo_failed": "ಡೆಮೊ ಲಾಗಿನ್ ಆಗಲಿಲ್ಲ. (ಅಡ್ಮಿನ್: Vercel ನಲ್ಲಿ SUPABASE_SECRET_KEY ಪರಿಶೀಲಿಸಿ, /api/health ತೆರೆಯಿರಿ.)",
-    "demo_email_off": "ಡೆಮೊ ಲಾಗಿನ್‌ಗೆ Email ಲಾಗಿನ್ ಬೇಕು. (ಅಡ್ಮಿನ್: Supabase → Authentication → Providers → Email ಆನ್ ಮಾಡಿ.)"
+    "demo_email_off": "ಡೆಮೊ ಲಾಗಿನ್‌ಗೆ Email ಲಾಗಿನ್ ಬೇಕು. (ಅಡ್ಮಿನ್: Supabase → Authentication → Providers → Email ಆನ್ ಮಾಡಿ.)",
+    "db_not_setup": "ಲಾಗಿನ್ ಆಯಿತು, ಆದರೆ ಆ್ಯಪ್ ಡೇಟಾಬೇಸ್ ಇನ್ನೂ ಸಿದ್ಧವಾಗಿಲ್ಲ. (ಅಡ್ಮಿನ್: supabase/setup.sql ಅನ್ನು Supabase → SQL Editor ನಲ್ಲಿ ಹಾಕಿ Run ಒತ್ತಿ.)"
   },
   "welcome": {
     "title": "ನಿಮ್ಮ ಕಟ್ಟಡದ ವ್ಯಾಪಾರಿಯಿಂದ ನಾಳೆಗೆ ತಾಜಾ ತರಕಾರಿ",

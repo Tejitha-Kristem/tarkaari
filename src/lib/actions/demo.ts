@@ -54,10 +54,26 @@ export async function demoSignIn(role: DemoRole, language: "en" | "kn"): Promise
     }
   }
 
-  if (role === "admin") {
-    const { data } = await supabase.auth.getUser();
-    if (data.user) await createAdminClient().from("users").update({ role: "admin", name: "Admin" }).eq("id", data.user.id);
+  // The app needs the profile row that the database trigger makes. Check it, so a
+  // missing database setup is reported here instead of bouncing back to the start.
+  const { data: auth } = await supabase.auth.getUser();
+  if (!auth.user) return fail({ message: "demo_failed" });
+  const admin = createAdminClient();
+  const { data: profile, error: profileError } = await admin.from("users").select("id").eq("id", auth.user.id).maybeSingle();
+  if (profileError) {
+    console.error("Demo sign-in: profile lookup failed:", profileError.message);
+    await supabase.auth.signOut();
+    return fail({ message: "db_not_setup" });
   }
+  if (!profile) {
+    const { error: insertError } = await admin.from("users").insert({ id: auth.user.id, phone, language });
+    if (insertError) {
+      console.error("Demo sign-in: creating the profile failed:", insertError.message);
+      await supabase.auth.signOut();
+      return fail({ message: "db_not_setup" });
+    }
+  }
+  if (role === "admin") await admin.from("users").update({ role: "admin", name: "Admin" }).eq("id", auth.user.id);
   (await cookies()).set(INTENT_COOKIE, role === "vendor" ? "vendor" : "customer", { path: "/", maxAge: 604800, sameSite: "lax" });
   return ok(null);
 }

@@ -165,7 +165,8 @@
     "auth_rate_limited": "Too many tries. Please wait a minute and try again.",
     "demo_off": "Demo login is turned off.",
     "demo_failed": "Demo login didn't work. (Admin: check SUPABASE_SECRET_KEY in Vercel and open /api/health.)",
-    "demo_email_off": "Demo login needs Email sign-in. (Admin: Supabase → Authentication → Sign In / Providers → Email → enable.)"
+    "demo_email_off": "Demo login needs Email sign-in. (Admin: Supabase → Authentication → Sign In / Providers → Email → enable.)",
+    "db_not_setup": "Signed in, but the app's database isn't set up yet. (Admin: paste supabase/setup.sql into Supabase → SQL Editor and press Run.)"
   },
   "welcome": {
     "title": "Fresh vegetables for tomorrow, from your building's vendor",

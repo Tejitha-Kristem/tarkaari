@@ -35,7 +35,7 @@ export async function GET() {
       const res = await fetch(`${supabaseUrl}/rest/v1/rpc/booking_state`, { method: "POST", headers, body: "{}", cache: "no-store" });
       checks.database = res.ok
         ? { ok: true, detail: `round trip ${Date.now() - t} ms` }
-        : { ok: false, fix: "Run the files in supabase/migrations (in order) and supabase/seed.sql in the Supabase SQL Editor." };
+        : { ok: false, fix: "Paste supabase/setup.sql into Supabase → SQL Editor and press Run (one time)." };
     } catch {
       checks.database = { ok: false, fix: "Couldn't reach the database API." };
     }

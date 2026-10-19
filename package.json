@@ -18,7 +18,8 @@
     "db:test": "scripts/db-test/run.sh",
     "photo": "node scripts/add-photo.mjs",
     "stack:setup": "node scripts/dev-stack/stack.mjs setup",
-    "stack": "node scripts/dev-stack/stack.mjs start"
+    "stack": "node scripts/dev-stack/stack.mjs start",
+    "db:bundle": "node scripts/bundle-sql.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
