@@ -8,6 +8,7 @@ import type { Locale } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { joinInvite } from "./actions";
+import { Benefits } from "@/components/benefits";
 
 async function resolve(code: string) {
   if (!isSupabaseConfigured) return null;
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/j/[code]
   const { locale, code } = await params;
   const invite = await resolve(code);
   const t = await getTranslations({ locale: locale as Locale, namespace: "join" });
-  if (!invite) return { title: "Tarakari" };
+  if (!invite) return { title: "Tarkaari" };
   const title = invite.shop_name ? t("metaTitle", { shop: invite.shop_name }) : invite.apartment_name;
   const description = t("metaBody", { apartment: invite.apartment_name });
   return { title, description, openGraph: { title, description, images: ["/icons/icon-512.png"] } };
@@ -69,6 +70,7 @@ export default async function JoinPage({ params }: PageProps<"/[locale]/j/[code]
               </li>
             ))}
           </ol>
+          <Benefits className="mt-6" />
           <form action={joinInvite.bind(null, code)} className="mt-auto pt-6">
             <Button type="submit" size="lg" className="w-full">
               {t("join.joinBtn")}

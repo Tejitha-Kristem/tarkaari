@@ -3,6 +3,7 @@ import { Noto_Sans_Kannada, Outfit } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { INSTALL_CAPTURE } from "@/components/install-app";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
@@ -28,7 +29,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   return {
     title: { default: t("name"), template: `%s · ${t("name")}` },
     description: t("tagline"),
-    applicationName: "Tarakari",
+    applicationName: "Tarkaari",
     appleWebApp: { capable: true, title: t("name"), statusBarStyle: "default" },
     formatDetection: { telephone: false },
   };
@@ -53,6 +54,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   return (
     <html lang={locale === "kn" ? "kn-IN" : "en-IN"} className={`${outfit.variable} ${notoKannada.variable}`}>
       <body className="min-h-dvh">
+        {/* Must run before hydration: Chrome offers installing only once per page load. */}
+        <script dangerouslySetInnerHTML={{ __html: INSTALL_CAPTURE }} />
         <NextIntlClientProvider>
           {children}
           <Toaster />

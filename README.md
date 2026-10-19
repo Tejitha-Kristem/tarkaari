@@ -1,4 +1,4 @@
-# Tarakari · ತರಕಾರಿ
+# Tarkaari · ತರಕಾರಿ
 
 Next-day vegetable ordering between apartment residents in Bengaluru and their local vendor. Mobile-first installable PWA in English and Kannada.
 

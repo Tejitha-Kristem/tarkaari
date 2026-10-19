@@ -1,5 +1,6 @@
 import { Bell, Building2, ChevronRight, Leaf, Wallet } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { InstallApp } from "@/components/install-app";
 import { LanguagePicker } from "@/components/language-picker";
 import { LanguageSwitch } from "@/components/language-switch";
 import { LogoutButton } from "@/components/logout-button";
@@ -70,6 +71,7 @@ export default async function VendorMorePage({ params }: PageProps<"/[locale]/ve
           <h2 className="text-lg font-semibold">{t("profile.notifications")}</h2>
           <PushToggle />
         </section>
+        <InstallApp variant="row" />
         <ReportForm />
         <LogoutButton />
       </div>

@@ -25,7 +25,7 @@ export function PayBalance({ amount, upiId, shopName }: { amount: number; upiId:
   }
 
   const upiLink = upiId
-    ? `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(shopName)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent("Tarakari")}`
+    ? `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(shopName)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent("Tarkaari")}`
     : null;
 
   return (

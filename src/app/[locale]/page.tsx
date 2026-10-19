@@ -2,6 +2,8 @@ import { ShoppingBasket, Store } from "lucide-react";
 import Image from "next/image";
 import { cookies } from "next/headers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Benefits } from "@/components/benefits";
+import { InstallApp } from "@/components/install-app";
 import { LanguagePicker } from "@/components/language-picker";
 import { INTENT_COOKIE } from "@/lib/cookies";
 import { getViewer, homeFor } from "@/lib/data/viewer";
@@ -41,6 +43,8 @@ export default async function WelcomePage({ params }: PageProps<"/[locale]">) {
       </section>
 
       <div className="flex flex-col gap-6 px-4 pt-6 pb-10">
+        <Benefits />
+        <InstallApp />
         <section aria-labelledby="lang" className="flex flex-col gap-3">
           <h2 id="lang" className="text-lg font-semibold">{t("language.title")}</h2>
           <LanguagePicker />

@@ -1,5 +1,6 @@
 import { Bell, ChevronRight, MessageCircle, Phone, Store } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
+import { InstallApp } from "@/components/install-app";
 import { LanguagePicker } from "@/components/language-picker";
 import { LanguageSwitch } from "@/components/language-switch";
 import { LogoutButton } from "@/components/logout-button";
@@ -167,6 +168,7 @@ export default async function ProfilePage({ params }: PageProps<"/[locale]/profi
           <PushToggle />
         </section>
 
+        <InstallApp variant="row" />
         <ReportForm />
         <LogoutButton />
       </div>

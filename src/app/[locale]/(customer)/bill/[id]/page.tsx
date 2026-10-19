@@ -95,7 +95,7 @@ export default async function BillPage({ params }: PageProps<"/[locale]/bill/[id
               monthly={data.terms?.mode === "monthly"}
               upiId={data.vendor?.upi_id ?? null}
               shopName={data.vendor?.shop_name ?? ""}
-              note={`Tarakari ${o.delivery_date}`}
+              note={`Tarkaari ${o.delivery_date}`}
             />
             )}
           </>

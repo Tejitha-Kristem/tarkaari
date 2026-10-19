@@ -1,9 +1,14 @@
 {
   "app": {
-    "name": "Tarakari",
+    "name": "Tarkaari",
     "tagline": "Fresh vegetables from your building's vendor, delivered tomorrow morning",
     "install": "Install app",
-    "installHint": "Add to your home screen to open it like an app"
+    "installHint": "Add to your home screen to open it like an app",
+    "installIos1": "In Safari, tap Share",
+    "installIos2": "at the bottom, then “Add to Home Screen”.",
+    "installMenu1": "Open the browser menu",
+    "installMenu2": "and choose “Install app” or “Add to Home screen”.",
+    "installNotNow": "Not now"
   },
   "common": {
     "continue": "Continue",
@@ -600,5 +605,16 @@
   "blocked": {
     "title": "Account blocked",
     "body": "This account can't be used. Please contact support."
+  },
+  "benefits": {
+    "title": "Why order with Tarkaari",
+    "ecoTitle": "No plastic, no boxes",
+    "ecoBody": "Your vendor brings vegetables in reusable crates and bags. No delivery packaging to throw away.",
+    "freshTitle": "Fresh, good quality",
+    "freshBody": "Picked at the morning market for your order, not stored for days in a warehouse.",
+    "localTitle": "Support a local vendor",
+    "localBody": "You pay your building's vendor directly. No big company in between, no commission taken.",
+    "wasteTitle": "Less food waste",
+    "wasteBody": "Your vendor buys only what was ordered, so less goes unsold and thrown away."
   }
 }

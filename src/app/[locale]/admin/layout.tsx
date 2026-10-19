@@ -16,7 +16,7 @@ export default async function AdminLayout({ children, params }: LayoutProps<"/[l
     <div className="mx-auto min-h-dvh w-full max-w-3xl pb-16">
       <header className="flex flex-col gap-3 rounded-b-[1.875rem] bg-primary px-4 pt-4 pb-3 text-primary-foreground">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Tarakari · {t("title")}</h1>
+          <h1 className="text-xl font-semibold">Tarkaari · {t("title")}</h1>
           <LanguageSwitch onDark />
         </div>
         <AdminTabs

@@ -1,6 +1,6 @@
 // Tarakari service worker: offline fallback, asset caching, web push.
 // Bump VERSION to drop old caches after changing caching rules.
-const VERSION = "v2";
+const VERSION = "v3";
 const STATIC_CACHE = `static-${VERSION}`;
 const PICTURE_CACHE = `pictures-${VERSION}`;
 const OFFLINE_URL = "/offline.html";
@@ -76,7 +76,7 @@ self.addEventListener("push", (event) => {
     data = { body: event.data && event.data.text() };
   }
   event.waitUntil(
-    self.registration.showNotification(data.title || "Tarakari", {
+    self.registration.showNotification(data.title || "Tarkaari", {
       body: data.body || "",
       icon: "/icons/icon-192.png",
       badge: "/icons/icon-192.png",
