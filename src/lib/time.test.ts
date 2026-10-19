@@ -45,3 +45,9 @@ test("customers edit only the order for the open window", () => {
 test("vendor must accept by 21:00 IST the evening before", () => {
   assert.equal(vendorAcceptDeadline("2026-10-20").toISOString(), "2026-10-19T15:30:00.000Z");
 });
+
+test("shortDate takes plain dates and timestamps", async () => {
+  const { shortDate } = await import("./format.ts");
+  assert.equal(shortDate("2026-10-20", "en", { day: "numeric", month: "short" }), "20 Oct");
+  assert.equal(shortDate("2026-10-19T20:00:00Z", "en", { day: "numeric", month: "short" }), "20 Oct");
+});

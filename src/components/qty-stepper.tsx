@@ -11,18 +11,13 @@ type Props = {
   onChange: (next: number) => void;
   /** Translated unit label, e.g. "kg" or "ಕಟ್ಟು". */
   unitLabel: string;
-  /** Item name, used in screen-reader labels. */
   itemName: string;
   max?: number;
   disabled?: boolean;
   className?: string;
 };
 
-/**
- * "+ Add" at zero, then a filled "− qty +" bar. In narrow tiles the unit is
- * dropped from the bar (the price line above already shows it); screen readers
- * always hear the full quantity with its unit.
- */
+/** Lime "+ Add" at zero, then a forest "− qty +" pill. */
 export function QtyStepper({ value, step, onChange, unitLabel, itemName, max = 99, disabled, className }: Props) {
   const t = useTranslations();
   const round = (n: number) => Math.round(n * 1000) / 1000;
@@ -38,48 +33,42 @@ export function QtyStepper({ value, step, onChange, unitLabel, itemName, max = 9
         disabled={disabled}
         aria-label={plusLabel}
         className={cn(
-          "inline-flex h-14 w-full items-center justify-center gap-1.5 rounded-2xl border-2 border-primary bg-card text-lg font-extrabold text-primary uppercase active:scale-[0.98] disabled:opacity-50",
+          "inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-full bg-accent text-base font-semibold text-accent-foreground active:scale-[0.98] disabled:opacity-50",
           className,
         )}
       >
-        <Plus className="size-5" strokeWidth={3.5} aria-hidden />
+        <Plus className="size-5" strokeWidth={2.8} aria-hidden />
         {t("common.add")}
       </button>
     );
   }
 
   return (
-    <div
-      className={cn(
-        "@container flex h-14 w-full items-stretch overflow-hidden rounded-2xl bg-primary text-primary-foreground",
-        className,
-      )}
-    >
+    <div className={cn("flex h-12 w-full items-center rounded-full bg-primary p-1 text-primary-foreground", className)}>
       <button
         type="button"
         onClick={dec}
         disabled={disabled}
         aria-label={t("a11y.decrease", { item: itemName, unit: unitLabel })}
-        className="flex w-12 shrink-0 items-center justify-center active:bg-black/15 disabled:opacity-50"
+        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/14 active:bg-white/25 disabled:opacity-50"
       >
-        <Minus className="size-6" strokeWidth={3.5} aria-hidden />
+        <Minus className="size-5" strokeWidth={2.8} aria-hidden />
       </button>
       <output
         aria-live="polite"
         aria-label={t("a11y.quantity", { qty: formatQty(value), unit: unitLabel })}
-        className="flex min-w-0 flex-1 items-center justify-center gap-1 text-lg leading-none font-extrabold whitespace-nowrap tabular-nums"
+        className="min-w-0 flex-1 truncate text-center text-base font-semibold tabular-nums"
       >
-        {formatQty(value)}
-        <span className="hidden @[11rem]:inline">{unitLabel}</span>
+        {formatQty(value)} {unitLabel}
       </output>
       <button
         type="button"
         onClick={inc}
         disabled={disabled || value >= max}
         aria-label={plusLabel}
-        className="flex w-12 shrink-0 items-center justify-center active:bg-black/15 disabled:opacity-50"
+        className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground active:bg-accent/80 disabled:opacity-50"
       >
-        <Plus className="size-6" strokeWidth={3.5} aria-hidden />
+        <Plus className="size-5" strokeWidth={2.8} aria-hidden />
       </button>
     </div>
   );

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Noto_Sans, Noto_Sans_Kannada } from "next/font/google";
+import { Noto_Sans_Kannada, Outfit } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -8,16 +8,16 @@ import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-const notoSans = Noto_Sans({
+const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-noto-sans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-outfit",
   display: "swap",
 });
 
 const notoKannada = Noto_Sans_Kannada({
   subsets: ["kannada"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-noto-kannada",
   display: "swap",
 });
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
 }
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#0f3d32",
   width: "device-width",
   initialScale: 1,
   // Zoom stays enabled: some users will pinch to read.
@@ -51,7 +51,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   setRequestLocale(locale);
 
   return (
-    <html lang={locale === "kn" ? "kn-IN" : "en-IN"} className={`${notoSans.variable} ${notoKannada.variable}`}>
+    <html lang={locale === "kn" ? "kn-IN" : "en-IN"} className={`${outfit.variable} ${notoKannada.variable}`}>
       <body className="min-h-dvh">
         <NextIntlClientProvider>
           {children}

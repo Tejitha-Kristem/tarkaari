@@ -201,8 +201,19 @@ function start() {
   process.on("SIGTERM", stop);
 }
 
+// Pins the database clock (IST booking window) for manual testing, e.g.
+//   node scripts/dev-stack/stack.mjs clock "2026-10-19 17:05+05:30"   (or "off")
+function clock(at) {
+  const value = !at || at === "off" ? "" : at;
+  psql("postgres", ["-c", `alter database ${DB} set app.fake_now = '${value.replaceAll("'", "")}'`]);
+  // The setting applies to new connections only, so drop the API's pooled ones; PostgREST reconnects by itself.
+  psql("postgres", ["-c", `select pg_terminate_backend(pid) from pg_stat_activity where datname = '${DB}' and usename = 'authenticator'`]);
+  console.log(value ? `Clock pinned to ${value}.` : "Clock follows real time.");
+}
+
 const cmd = process.argv[2];
 if (cmd === "setup") setup();
+else if (cmd === "clock") clock(process.argv[3]);
 else if (cmd === "start") start();
 else if (cmd === "env") printEnv();
-else console.log("Usage: node scripts/dev-stack/stack.mjs setup|start|env");
+else console.log("Usage: node scripts/dev-stack/stack.mjs setup|start|env|clock <time|off>");

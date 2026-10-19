@@ -6,18 +6,15 @@ Next-day vegetable ordering between apartment residents in Bengaluru and their l
 - Payment goes straight from customer to vendor (UPI link or cash). The app never holds money.
 - Roles: customer, vendor, admin.
 
-## Build status
+## What's built
 
-| Phase | Scope | Status |
-|---|---|---|
-| 1 | Setup, i18n, PWA, Supabase clients, schema + RLS, catalogue seed (+ aliases, invite codes) | ✅ done |
-| 2 | Auth and onboarding (all roles), **WhatsApp join links** (`/j/<code>`, link preview) | next |
-| 3 | Vendor setup, admin approval, **"Share to WhatsApp group" per apartment**, **type/speak a list to set stock & prices** | |
-| 4 | Customer ordering, **type/paste/speak a list → cart** (review before adding) | |
-| 5 | Vendor fulfilment: **item totals across all apartments → per apartment → house-by-house lists** | |
-| 6 | Bills, payments, reminders (cron), pause | |
-| 7 | Admin panel, read-aloud everywhere, polish, accessibility pass | |
-| 8 | Deploy + Android test checklist | |
+| Area | Screens |
+|---|---|
+| Everyone | Welcome (pick role + language), phone OTP login, WhatsApp join link `/j/<code>` with link preview, offline page |
+| Customer | Onboarding (name → apartment → flat → vendor) · Shop with countdown, categories, repeat last order · **Type/speak a list → cart** · Cart · My order (status steps, item availability, change/cancel until 5 pm, read aloud) · Bill + pay by UPI link or cash · Payments · Profile (vendor, invite neighbours, past orders + repeat, language, alerts, help) · Notifications |
+| Vendor | Shop setup (photos, apartments, delivery time, payment terms, service charge, **type/speak prices**) · Under review · Today (countdown, next step, totals) · **Buying list: all apartments → per apartment → house by house** · Orders (tap to untick with undo, accept all after 5 pm) · Pack & deliver (actual weight, price chips, bill) · Items & prices (availability, price range, price note, **type/speak prices**, add vegetables) · Apartments (**Share to WhatsApp group**, new link, terms, holidays, add/stop) · Dues (confirm/reject claims, cash received, remind via WhatsApp + in-app, pause/allow) · More/settings |
+| Admin `/admin` | Dashboard · Vendors (photos, approve/pause/block) · Apartments (search, merge, remove) · Customers (search, block) · Orders lookup · Reports |
+| Background | Notifications created by DB triggers, sent as web push right after each action; daily reminders by Vercel Cron |
 
 ## Folder structure
 
@@ -32,18 +29,28 @@ scripts/
   generate-catalogue.mjs  writes supabase/seed.sql + public/veg/*.svg
   generate-icons.mjs      app icons
   check-messages.mjs      EN/KN key parity
-  db-test/                migration + RLS tests on plain Postgres
+  db-test/                migration, RLS and full-day business-flow tests on plain Postgres
+  dev-stack/              Docker-free local Supabase (Postgres + Auth + PostgREST + gateway)
 supabase/
   config.toml             local CLI config, test OTP numbers
   migrations/             schema → functions → RLS → storage
   seed.sql                generated catalogue (47 items)
 src/
   app/[locale]/           all screens (locale comes from cookie, not URL)
+    (customer)/           shop, cart, order, bill, payments, profile
+    vendor/(app)/         Today, buy, orders, pack, items, apartments, payments, more
+    vendor/setup|review   vendor sign-up before approval
+    admin/                admin panel
+  app/api/cron/[job]/     scheduled reminders (Vercel Cron)
   app/manifest.ts         web app manifest
   components/             app components + ui/ (shadcn/ui)
   hooks/                  use-undo, use-switch-locale
   i18n/                   next-intl routing, request config, navigation
   lib/time.ts             IST booking-window rules (+ tests)
+  lib/list-parser.ts      typed/spoken list → items, quantities, price ranges (+ tests)
+  lib/data/               per-request loaders (viewer, customer, vendor)
+  lib/actions/            server actions (all writes go through RLS or checked DB functions)
+  lib/notify/             notification text, web push fan-out
   lib/supabase/           browser / server / admin (service role) / proxy clients
   proxy.ts                next-intl + Supabase session refresh (Next 16 "proxy" = middleware)
   types/database.ts       generated DB types
@@ -60,7 +67,22 @@ src/
 | `npm run photo -- <slug> <file> [credit]` | Add a real photo for an item |
 | `npm run db:push` | Apply migrations + seed to the linked Supabase project |
 | `npm run db:types` | Regenerate `src/types/database.ts` from the linked project |
-| `npm run db:test` | Run migrations and 72 RLS/rule checks on a local Postgres (set `PGHOST`, `PGPORT`, `PGUSER`) |
+| `npm run db:test` | Run migrations plus 114 RLS and business-rule checks on a local Postgres (set `PGHOST`, `PGPORT`, `PGUSER`) |
+| `npm run stack:setup` / `npm run stack` | Recreate / run the local Supabase-like stack (see below) |
+
+## Running locally without Docker
+
+`scripts/dev-stack` runs Postgres 16, Supabase Auth and PostgREST behind one gateway on `http://127.0.0.1:54321`, the same API the app uses in production.
+
+```bash
+npm run stack:setup      # fresh database "tarakari_dev" from the migrations + seed
+npm run stack            # start it; prints the .env.local values
+npm run dev
+node scripts/dev-stack/stack.mjs clock "2026-10-19 17:30+05:30"   # pretend it's 5:30 pm (or "off")
+```
+
+Sign in with the test numbers (90000 00001–05, code 123456). Make an admin with
+`update public.users set role = 'admin' where phone = '919000000005';` after that number has signed in once.
 
 ## Setting up Supabase
 
@@ -94,32 +116,43 @@ Storage buckets (`catalogue`, `shop-photos`, `id-photos`) are created by the mig
 3. **Settings → Functions → Function Region:** **Mumbai (bom1)**, the same region as the database.
 4. Deploy, then put the deployment URL into Supabase *Site URL* (step 5 above) and `NEXT_PUBLIC_SITE_URL`.
 
-Cron jobs arrive in phase 6. Vercel's Hobby plan runs cron at most once a day, and only *somewhere within the scheduled hour*, so a "4 pm" reminder could fire at 4:59. Phase 6 will either use the Pro plan or an alternative scheduler for that one job.
+### Scheduled jobs (`vercel.json`)
+
+| Job | IST | What it does |
+|---|---|---|
+| `booking-reminder` | 15:30 daily | Customers who haven't ordered for tomorrow: "Order by 5 pm" |
+| `payment-due` | 18:00 daily | Per-delivery customers with an unpaid bill older than a day |
+| `accept-reminder` | 19:00 daily | Vendors with orders still to accept before 9 pm |
+| `monthly-statement` | 09:00 on the 1st | Monthly-bill customers get their total |
+
+Each job is idempotent (deduplicated per day/month) and also sends any pending web push. Vercel's Hobby plan runs each job once a day and may start it anywhere within the hour; that is fine for these reminders. Set `CRON_SECRET` or the routes refuse to run.
+
+**Web push:** run `npx web-push generate-vapid-keys` once and set the three VAPID variables. On iPhone, alerts only work after "Add to Home Screen" (iOS 16.4+); the Profile screen says so.
 
 ## Environment variables
 
 Copy `.env.example` to `.env.local` for development.
 
-| Name | Where from | Needed from |
-|---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API | phase 2 |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key (`sb_publishable_…`; legacy anon key also works) | phase 2 |
-| `SUPABASE_SECRET_KEY` | Secret key (`sb_secret_…`). **Server only, bypasses RLS** | phase 3 |
-| `NEXT_PUBLIC_SITE_URL` | Your app URL (`http://localhost:3000` locally) | phase 2 |
-| `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` | `npx web-push generate-vapid-keys` | phase 6 |
-| `VAPID_SUBJECT` | `mailto:` + your email | phase 6 |
-| `CRON_SECRET` | any long random string (`openssl rand -hex 32`) | phase 6 |
+| Name | Where from |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase → Project Settings → API |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key (`sb_publishable_…`; legacy anon key also works) |
+| `SUPABASE_SECRET_KEY` | Secret key (`sb_secret_…`). **Server only, bypasses RLS** |
+| `NEXT_PUBLIC_SITE_URL` | Your app URL (`http://localhost:3000` locally) |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` | `npx web-push generate-vapid-keys` |
+| `VAPID_SUBJECT` | `mailto:` + your email |
+| `CRON_SECRET` | any long random string (`openssl rand -hex 32`) |
 
-The app runs without Supabase variables (phase 1 screens only) and fails with a clear message when a feature needs them.
+Without the VAPID variables the app works and simply doesn't send push alerts.
 
 ## Key decisions
 
-- **The booking window is enforced in Postgres** (`public.booking_state()`, computed in `Asia/Kolkata`). Customers and vendors have no direct write access to orders or payments; later phases add `SECURITY DEFINER` functions that check the window and roles. `src/lib/time.ts` mirrors the same rules for the UI. Keep them in sync.
+- **The booking window is enforced in Postgres** (`public.booking_state()`, computed in `Asia/Kolkata`). Customers and vendors have no direct write access to orders or payments; `SECURITY DEFINER` functions (`place_order`, `vendor_accept_orders`, `vendor_pack_order`, `claim_payment`, …) check the window and roles. `src/lib/time.ts` mirrors the same rules for the UI. Keep them in sync.
 - **RLS on every table, plus column grants.** For example, a customer can edit their flat number but not `paused`, and a vendor can edit their shop but not `approval_status`. See `supabase/migrations/*_rls.sql`; `scripts/db-test/10_rls_test.sql` proves it.
 - **Prices are ranges per unit.** `g` items are priced per 100 g. Order items snapshot the range; the vendor's final price must fall inside it (a CHECK constraint), and `line_total` is a generated column.
-- **URLs have no locale prefix.** The language lives in the `NEXT_LOCALE` cookie (and `users.language` from phase 2). Switching language reloads the page so no screen is left in the old language.
+- **URLs have no locale prefix.** The language lives in the `NEXT_LOCALE` cookie (and `users.language`). Switching language reloads the page so no screen is left in the old language.
 - **Cache Components is off.** Almost every screen is per-user.
-- **Accessibility baseline in the theme:** `text-sm` = 18px, `text-base` = 20px, buttons ≥ 56px, status = colour + shape + word, confirm sheets with the safe option nearest the thumb, 5-second undo.
+- **Theme “Leaf & Lime”:** forest-green headers, lime main action, pastel cards, Outfit + Noto Sans Kannada, 15px body text, 48–56px pill buttons, one main action at the bottom, status = colour + shape + word, confirm sheets with the safe option nearest the thumb, 5-second undo, read aloud on orders and bills.
 
 ## Photos
 
@@ -132,8 +165,22 @@ npm run catalogue                                                               
 
 Where each photo came from is recorded in `public/veg/credits.json`. Only use photos you have the right to use.
 
+## Android test checklist
+
+On a real Android phone (Chrome), against the deployed URL:
+
+1. Open the WhatsApp join link from a WhatsApp message: the preview shows the shop and apartment; tapping opens the app.
+2. Chrome offers **Install app**; the installed icon is the green basket; it opens full screen.
+3. Sign in with a test number; switch to ಕನ್ನಡ and back on several screens.
+4. Speak a list ("tomato one kg, kothambari two kattu") with the mic button; check the review screen.
+5. Place, change and cancel an order before 5 pm; try after 5 pm and see it locked.
+6. Turn on alerts in Profile; have the vendor accept → a notification arrives with the app closed; tapping it opens My order.
+7. On the bill, **Pay with UPI** opens GPay/PhonePe with the amount filled in.
+8. Turn on airplane mode and navigate: the offline page appears; pictures already seen still show.
+9. Read aloud works in English and Kannada (Kannada needs the Google TTS Kannada voice installed).
+
 ## Before launch (tracked)
 
 - Real photos for all 47 items (2 done: tomato, coriander); confirm the source/licence of every photo.
 - Have a native Kannada speaker review `messages/kn.json` and the catalogue names.
-- Remove the `/kit` design page.
+- Configure a real SMS provider (MSG91 or Twilio with DLT registration for India) in Supabase Auth.

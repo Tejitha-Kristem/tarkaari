@@ -762,6 +762,30 @@ export type Database = {
     };
     Views: { [_ in never]: never };
     Functions: {
+      admin_merge_apartments: {
+        Args: { p_from: string; p_into: string };
+        Returns: string;
+      };
+      admin_remove_apartment: {
+        Args: { p_id: string };
+        Returns: string;
+      };
+      admin_set_report_status: {
+        Args: { p_report_id: string; p_status: Database["public"]["Enums"]["report_status"] };
+        Returns: string;
+      };
+      admin_set_user_status: {
+        Args: { p_user_id: string; p_status: Database["public"]["Enums"]["user_status"] };
+        Returns: string;
+      };
+      admin_set_vendor_status: {
+        Args: { p_vendor_id: string; p_status: Database["public"]["Enums"]["vendor_approval"] };
+        Returns: string;
+      };
+      app_now: {
+        Args: never;
+        Returns: string;
+      };
       booking_state: {
         Args: { p_at?: string };
         Returns: { phase: string; delivery_date: string; closes_at: string; opens_at: string }[];
@@ -769,6 +793,30 @@ export type Database = {
       can_customer_edit: {
         Args: { p_delivery_date: string; p_at?: string };
         Returns: boolean;
+      };
+      cancel_my_order: {
+        Args: { p_order_id: string };
+        Returns: string;
+      };
+      claim_payment: {
+        Args: { p_amount: number; p_method: Database["public"]["Enums"]["payment_method"]; p_order_id?: string };
+        Returns: string;
+      };
+      cron_accept_reminders: {
+        Args: never;
+        Returns: number;
+      };
+      cron_booking_reminders: {
+        Args: never;
+        Returns: number;
+      };
+      cron_monthly_statements: {
+        Args: never;
+        Returns: number;
+      };
+      cron_payment_due: {
+        Args: never;
+        Returns: number;
       };
       current_household_id: {
         Args: never;
@@ -781,6 +829,14 @@ export type Database = {
       default_step: {
         Args: { u: Database["public"]["Enums"]["item_unit"] };
         Returns: number;
+      };
+      fail: {
+        Args: { p_code: string };
+        Returns: string;
+      };
+      household_ledger: {
+        Args: { p_household_id: string; p_vendor_id: string };
+        Returns: { billed: number; paid: number; claimed: number; balance: number; oldest_unpaid: string }[];
       };
       is_admin: {
         Args: never;
@@ -798,8 +854,40 @@ export type Database = {
         Args: never;
         Returns: string;
       };
+      my_ledger: {
+        Args: never;
+        Returns: { billed: number; paid: number; claimed: number; balance: number; oldest_unpaid: string }[];
+      };
       new_invite_code: {
         Args: never;
+        Returns: string;
+      };
+      notify: {
+        Args: { p_user_id: string; p_type: Database["public"]["Enums"]["notification_type"]; p_payload: Json; p_dedupe: string };
+        Returns: string;
+      };
+      orders_lock_at: {
+        Args: { p_delivery_date: string };
+        Returns: string;
+      };
+      place_order: {
+        Args: { p_items: Json };
+        Returns: string;
+      };
+      recompute_order: {
+        Args: { p_order_id: string };
+        Returns: string;
+      };
+      require_active_user: {
+        Args: never;
+        Returns: string;
+      };
+      require_admin: {
+        Args: never;
+        Returns: string;
+      };
+      require_vendor: {
+        Args: { p_allow_pending?: boolean };
         Returns: string;
       };
       resolve_invite: {
@@ -819,6 +907,54 @@ export type Database = {
         Args: { p_delivery_date: string };
         Returns: string;
       };
+      vendor_accept_orders: {
+        Args: { p_delivery_date: string };
+        Returns: number;
+      };
+      vendor_confirm_payment: {
+        Args: { p_payment_id: string };
+        Returns: string;
+      };
+      vendor_dues: {
+        Args: never;
+        Returns: { household_id: string; user_id: string; name: string; phone: string; apartment_id: string; block: string; flat_no: string; paused: boolean; billed: number; paid: number; claimed: number; balance: number; oldest_unpaid: string; pending_payment_id: string; pending_amount: number; pending_method: Database["public"]["Enums"]["payment_method"] }[];
+      };
+      vendor_mark_delivered: {
+        Args: { p_order_id: string };
+        Returns: string;
+      };
+      vendor_pack_order: {
+        Args: { p_order_id: string; p_items: Json };
+        Returns: number;
+      };
+      vendor_record_cash: {
+        Args: { p_household_id: string; p_amount: number };
+        Returns: string;
+      };
+      vendor_reject_payment: {
+        Args: { p_payment_id: string };
+        Returns: string;
+      };
+      vendor_remind: {
+        Args: { p_household_id: string };
+        Returns: string;
+      };
+      vendor_reset_invite: {
+        Args: { p_apartment_id: string };
+        Returns: string;
+      };
+      vendor_set_household_paused: {
+        Args: { p_household_id: string; p_paused: boolean };
+        Returns: string;
+      };
+      vendor_set_household_terms: {
+        Args: { p_household_id: string; p_mode: Database["public"]["Enums"]["payment_mode"]; p_method: Database["public"]["Enums"]["payment_method"] };
+        Returns: string;
+      };
+      vendor_set_item_available: {
+        Args: { p_order_item_id: string; p_available: boolean };
+        Returns: string;
+      };
     };
     Enums: {
       apartment_status: "active" | "merged" | "removed";
@@ -826,7 +962,7 @@ export type Database = {
       item_category: "daily" | "vegetables" | "roots" | "leafy" | "other";
       item_unit: "kg" | "g" | "piece" | "bunch" | "packet";
       notification_channel: "in_app" | "push" | "whatsapp" | "sms";
-      notification_type: "booking_reminder" | "order_accepted" | "item_unavailable" | "order_delivered" | "payment_due" | "payment_confirmed" | "monthly_statement" | "manual_reminder" | "vendor_approved";
+      notification_type: "booking_reminder" | "order_accepted" | "item_unavailable" | "order_delivered" | "payment_due" | "payment_confirmed" | "monthly_statement" | "manual_reminder" | "vendor_approved" | "accept_reminder";
       order_status: "placed" | "accepted" | "packed" | "delivered" | "cancelled";
       payment_method: "upi" | "cash";
       payment_mode: "per_delivery" | "monthly";
@@ -855,7 +991,7 @@ export const Constants = {
       item_category: ["daily", "vegetables", "roots", "leafy", "other"],
       item_unit: ["kg", "g", "piece", "bunch", "packet"],
       notification_channel: ["in_app", "push", "whatsapp", "sms"],
-      notification_type: ["booking_reminder", "order_accepted", "item_unavailable", "order_delivered", "payment_due", "payment_confirmed", "monthly_statement", "manual_reminder", "vendor_approved"],
+      notification_type: ["booking_reminder", "order_accepted", "item_unavailable", "order_delivered", "payment_due", "payment_confirmed", "monthly_statement", "manual_reminder", "vendor_approved", "accept_reminder"],
       order_status: ["placed", "accepted", "packed", "delivered", "cancelled"],
       payment_method: ["upi", "cash"],
       payment_mode: ["per_delivery", "monthly"],

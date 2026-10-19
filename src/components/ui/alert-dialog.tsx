@@ -39,7 +39,7 @@ function AlertDialogContent({ className, ...props }: React.ComponentProps<typeof
       <AlertDialogPrimitive.Content
         data-slot="alert-dialog-content"
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 mx-auto grid w-full max-w-lg gap-5 rounded-t-3xl border bg-card p-6 pb-safe shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:rounded-3xl",
+          "fixed inset-x-0 bottom-0 z-50 mx-auto grid w-full max-w-lg gap-5 rounded-t-[1.75rem] bg-card p-6 pb-safe shadow-lg duration-200 data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:rounded-3xl",
           className,
         )}
         {...props}
@@ -78,7 +78,7 @@ function AlertDialogDescription({ className, ...props }: React.ComponentProps<ty
 
 function AlertDialogAction({ className, ...props }: React.ComponentProps<typeof AlertDialogPrimitive.Action>) {
   return (
-    <AlertDialogPrimitive.Action className={cn(buttonVariants({ size: "lg" }), "w-full", className)} {...props} />
+    <AlertDialogPrimitive.Action className={cn(buttonVariants({ variant: "dark", size: "lg" }), "w-full", className)} {...props} />
   );
 }
 

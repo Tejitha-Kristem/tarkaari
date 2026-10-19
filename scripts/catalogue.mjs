@@ -15,7 +15,7 @@ export const catalogue = [
   ["ginger", "Ginger", "ಶುಂಠಿ", "g", "daily", ["adrak", "shunti", "shunthi"]],
   ["garlic", "Garlic", "ಬೆಳ್ಳುಳ್ಳಿ", "g", "daily", ["lahsun", "lehsun", "bellulli"]],
   ["lemon", "Lemon", "ನಿಂಬೆಹಣ್ಣು", "piece", "daily", ["lemons", "nimbu", "limbu", "nimbe", "nimbehannu", "ನಿಂಬೆ"]],
-  ["coriander", "Coriander leaves", "ಕೊತ್ತಂಬರಿ ಸೊಪ್ಪು", "bunch", "daily", ["kothambari", "kottambari", "kothambari soppu", "kothmir", "dhaniya", "dhania", "cilantro", "ಕೊತ್ತಂಬರಿ"]],
+  ["coriander", "Coriander leaves", "ಕೊತ್ತಂಬರಿ ಸೊಪ್ಪು", "bunch", "daily", ["coriander", "kothambari", "kottambari", "kothambari soppu", "kothmir", "dhaniya", "dhania", "cilantro", "ಕೊತ್ತಂಬರಿ"]],
   ["curry-leaves", "Curry leaves", "ಕರಿಬೇವು", "bunch", "daily", ["curry leaf", "karibevu", "kari bevu", "kadi patta", "curry patta", "ಕರಿಬೇವಿನ ಸೊಪ್ಪು"]],
   ["coconut", "Coconut", "ತೆಂಗಿನಕಾಯಿ", "piece", "daily", ["coconuts", "nariyal", "thengina kai", "tenginakayi", "kayi", "ಕಾಯಿ"]],
 
@@ -39,9 +39,9 @@ export const catalogue = [
   ["raw-banana", "Raw banana", "ಬಾಳೆಕಾಯಿ", "piece", "vegetables", ["plantain", "kacha kela", "balekai", "baalekayi"]],
   ["chow-chow", "Chow chow", "ಸೀಮೆ ಬದನೆಕಾಯಿ", "kg", "vegetables", ["chayote", "seeme badanekai", "seemebadanekayi"]],
   ["cluster-beans", "Cluster beans", "ಗೋರಿಕಾಯಿ", "kg", "vegetables", ["guar", "gawar", "gorikai", "gorikayi"]],
-  ["avarekai", "Field beans (Avarekai)", "ಅವರೆಕಾಯಿ", "kg", "vegetables", ["avare", "avarekalu", "field beans", "hyacinth beans", "papdi", "ಅವರೆ"]],
+  ["avarekai", "Field beans (Avarekai)", "ಅವರೆಕಾಯಿ", "kg", "vegetables", ["avarekai", "avare", "avarekalu", "field beans", "hyacinth beans", "papdi", "ಅವರೆ"]],
   ["green-peas", "Green peas", "ಹಸಿ ಬಟಾಣಿ", "kg", "vegetables", ["peas", "matar", "batani", "hasi batani", "ಬಟಾಣಿ"]],
-  ["knol-khol", "Knol-khol", "ನವಿಲುಕೋಸು", "kg", "vegetables", ["kohlrabi", "navilkosu", "navilu kosu", "ganth gobi"]],
+  ["knol-khol", "Knol-khol", "ನವಿಲುಕೋಸು", "kg", "vegetables", ["knol khol", "kohlrabi", "navilkosu", "navilu kosu", "ganth gobi"]],
   ["raw-mango", "Raw mango", "ಮಾವಿನಕಾಯಿ", "piece", "vegetables", ["mango", "kairi", "mavinakai", "maavinakayi", "kacha aam"]],
 
   // Roots & tubers
@@ -53,7 +53,7 @@ export const catalogue = [
   // Leafy greens & herbs
   ["spinach", "Spinach (Palak)", "ಪಾಲಕ್ ಸೊಪ್ಪು", "bunch", "leafy", ["palak", "palak soppu", "ಪಾಲಕ್"]],
   ["amaranth", "Amaranth (Dantu)", "ದಂಟಿನ ಸೊಪ್ಪು", "bunch", "leafy", ["dantu", "dantu soppu", "dantina soppu", "chaulai", "harive"]],
-  ["methi", "Fenugreek (Methi)", "ಮೆಂತ್ಯ ಸೊಪ್ಪು", "bunch", "leafy", ["fenugreek", "menthya", "menthya soppu", "menthe soppu", "ಮೆಂತೆ ಸೊಪ್ಪು"]],
+  ["methi", "Fenugreek (Methi)", "ಮೆಂತ್ಯ ಸೊಪ್ಪು", "bunch", "leafy", ["methi", "fenugreek", "menthya", "menthya soppu", "menthe soppu", "ಮೆಂತೆ ಸೊಪ್ಪು"]],
   ["dill", "Dill (Sabsige)", "ಸಬ್ಬಸಿಗೆ ಸೊಪ್ಪು", "bunch", "leafy", ["sabsige", "sabbasige", "sabsige soppu", "shepu", "suva"]],
   ["mint", "Mint", "ಪುದೀನ", "bunch", "leafy", ["pudina", "pudhina", "ಪುದಿನ"]],
   ["spring-onion", "Spring onion", "ಈರುಳ್ಳಿ ಸೊಪ್ಪು", "bunch", "leafy", ["spring onions", "green onion", "scallion", "hara pyaz", "eerulli soppu"]],

@@ -1,6 +1,6 @@
 // Tarakari service worker: offline fallback, asset caching, web push.
 // Bump VERSION to drop old caches after changing caching rules.
-const VERSION = "v1";
+const VERSION = "v2";
 const STATIC_CACHE = `static-${VERSION}`;
 const PICTURE_CACHE = `pictures-${VERSION}`;
 const OFFLINE_URL = "/offline.html";

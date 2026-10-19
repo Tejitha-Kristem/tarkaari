@@ -57,7 +57,7 @@ export function ReadAloudButton({ text, className }: { text: string; className?:
   }
 
   return (
-    <Button variant="neutral" onClick={toggle} aria-pressed={speaking} className={cn("w-full", className)}>
+    <Button variant="outline" onClick={toggle} aria-pressed={speaking} className={cn("w-full", className)}>
       {speaking ? <Square aria-hidden /> : <Volume2 aria-hidden />}
       {speaking ? t("stopReading") : t("readAloud")}
     </Button>

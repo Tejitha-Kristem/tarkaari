@@ -1,11 +1,21 @@
 -- Time rules, role helpers and integrity triggers.
 
 -- ---------------------------------------------------------------------------
+-- The clock. In tests and the local dev stack the database-level setting
+-- app.fake_now can pin it; API clients have no way to change that setting.
+-- ---------------------------------------------------------------------------
+create function public.app_now()
+returns timestamptz
+language sql stable
+set search_path = ''
+as $$ select coalesce(nullif(current_setting('app.fake_now', true), '')::timestamptz, now()) $$;
+
+-- ---------------------------------------------------------------------------
 -- Booking window (IST). Mirrors src/lib/time.ts; keep the two in sync.
 -- Orders placed 10:00–16:59 IST are for delivery tomorrow. From 17:00 they lock.
 -- The vendor must accept by 21:00 IST the evening before delivery.
 -- ---------------------------------------------------------------------------
-create function public.booking_state(p_at timestamptz default now())
+create function public.booking_state(p_at timestamptz default public.app_now())
 returns table (phase text, delivery_date date, closes_at timestamptz, opens_at timestamptz)
 language sql stable
 set search_path = ''
@@ -27,7 +37,7 @@ as $$
   from t
 $$;
 
-create function public.can_customer_edit(p_delivery_date date, p_at timestamptz default now())
+create function public.can_customer_edit(p_delivery_date date, p_at timestamptz default public.app_now())
 returns boolean
 language sql stable
 set search_path = ''

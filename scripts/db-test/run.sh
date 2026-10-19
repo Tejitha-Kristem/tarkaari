@@ -18,6 +18,7 @@ done
 psql -f "$root/supabase/seed.sql"
 psql -f "$root/supabase/seed.sql"   # seed must be idempotent
 psql -f "$here/10_rls_test.sql" >/dev/null
+psql -f "$here/20_operations_test.sql" >/dev/null
 echo "All database checks passed."
 if [[ "${1:-}" == "--types" ]]; then
   PGDATABASE="$db" node "$here/gen-types.mjs"

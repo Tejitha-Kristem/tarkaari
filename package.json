@@ -16,7 +16,9 @@
     "db:push": "supabase db push --include-seed",
     "db:types": "supabase gen types typescript --linked --schema public > src/types/database.ts",
     "db:test": "scripts/db-test/run.sh",
-    "photo": "node scripts/add-photo.mjs"
+    "photo": "node scripts/add-photo.mjs",
+    "stack:setup": "node scripts/dev-stack/stack.mjs setup",
+    "stack": "node scripts/dev-stack/stack.mjs start"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

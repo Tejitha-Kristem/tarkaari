@@ -228,6 +228,7 @@ create policy reports_insert_self on public.reports for insert to authenticated
 -- Function privileges: helpers are for signed-in users only.
 -- ---------------------------------------------------------------------------
 revoke execute on all functions in schema public from public, anon;
+grant execute on function public.app_now() to anon, authenticated;
 grant execute on function public.booking_state(timestamptz) to anon, authenticated;
 grant execute on function public.can_customer_edit(date, timestamptz) to authenticated;
 grant execute on function public.vendor_accept_deadline(date) to authenticated;
