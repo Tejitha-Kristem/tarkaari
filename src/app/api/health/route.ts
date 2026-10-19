@@ -41,6 +41,15 @@ export async function GET() {
     }
   }
 
+  checks.demoLogin = {
+    ok: true,
+    detail:
+      process.env.DEMO_LOGIN === "off"
+        ? "off"
+        : process.env.SUPABASE_SECRET_KEY
+          ? "on: demo numbers 90000 00001 / 00002 / 00005 sign in without SMS (set DEMO_LOGIN=off before real launch)"
+          : "unavailable until SUPABASE_SECRET_KEY is set",
+  };
   checks.siteUrl = process.env.NEXT_PUBLIC_SITE_URL
     ? { ok: true, detail: process.env.NEXT_PUBLIC_SITE_URL }
     : { ok: false, fix: "Set NEXT_PUBLIC_SITE_URL to https://<your app>.vercel.app so WhatsApp links work." };

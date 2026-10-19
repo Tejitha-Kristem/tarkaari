@@ -116,6 +116,10 @@ Storage buckets (`catalogue`, `shop-photos`, `id-photos`) are created by the mig
 3. **Settings → Functions → Function Region:** **Mumbai (bom1)**, the same region as the database.
 4. Deploy, then put the deployment URL into Supabase *Site URL* (step 5 above) and `NEXT_PUBLIC_SITE_URL`.
 
+### Demo login (no SMS needed)
+
+Until an SMS provider is set up, the login screen fills in a demo number (90000 00001 for customers, 90000 00002 for vendors; type 90000 00005 for admin). Tapping **Send code** fills the code and signs in without any SMS. The server creates these accounts with `SUPABASE_SECRET_KEY` (it uses Supabase's Email sign-in, which is on by default). Any other number goes through real SMS. **Set `DEMO_LOGIN=off` in Vercel before real customers use the app.**
+
 ### Check the setup
 
 Open `https://<your app>/api/health` after deploying. It shows yes/no for each piece (Supabase variables, phone sign-in, database, site URL, push, cron, server region) with what to fix. It never shows keys.
@@ -148,6 +152,7 @@ Copy `.env.example` to `.env.local` for development.
 | `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` | `npx web-push generate-vapid-keys` |
 | `VAPID_SUBJECT` | `mailto:` + your email |
 | `CRON_SECRET` | any long random string (`openssl rand -hex 32`) |
+| `DEMO_LOGIN` | `off` to remove the demo numbers (on by default) |
 
 Without the VAPID variables the app works and simply doesn't send push alerts.
 

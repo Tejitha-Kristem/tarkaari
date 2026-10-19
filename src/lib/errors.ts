@@ -6,6 +6,7 @@ const KNOWN = new Set([
   "order_not_accepted", "items_not_weighed", "order_not_packed", "payment_not_found", "not_your_customer",
   "not_your_apartment", "vendor_not_found", "user_not_found", "cannot_block_self", "same_apartment",
   "apartment_not_found", "vendor_not_serving_apartment", "price_out_of_range", "invalid_input", "invite_invalid",
+  "demo_off", "demo_failed", "demo_email_off",
 ]);
 
 import type en from "../../messages/en.json";

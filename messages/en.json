@@ -162,7 +162,10 @@
     "auth_not_configured": "The app isn't connected to its database yet. (Admin: add the Supabase variables in Vercel, then redeploy.)",
     "auth_phone_disabled": "Phone sign-in is switched off. (Admin: turn on Phone in Supabase → Authentication → Sign In / Providers.)",
     "auth_sms_failed": "We couldn't send the SMS. Please try again in a while. (Admin: set up an SMS provider in Supabase, or add this number as a test number.)",
-    "auth_rate_limited": "Too many tries. Please wait a minute and try again."
+    "auth_rate_limited": "Too many tries. Please wait a minute and try again.",
+    "demo_off": "Demo login is turned off.",
+    "demo_failed": "Demo login didn't work. (Admin: check SUPABASE_SECRET_KEY in Vercel and open /api/health.)",
+    "demo_email_off": "Demo login needs Email sign-in. (Admin: Supabase → Authentication → Sign In / Providers → Email → enable.)"
   },
   "welcome": {
     "title": "Fresh vegetables for tomorrow, from your building's vendor",
@@ -188,7 +191,9 @@
     "changeNumber": "Change number",
     "resend": "Send the code again",
     "resendIn": "Send again in {seconds}s",
-    "testHint": "Test login: 90000 00001 to 90000 00005, code 123456"
+    "testHint": "Test login: 90000 00001 to 90000 00005, code 123456",
+    "demoHint": "A demo number is filled in, so no SMS is needed. Just tap Send code.",
+    "demoCodeFilled": "Demo number: the code is filled in for you."
   },
   "join": {
     "fromWhatsApp": "Opened from your apartment's WhatsApp group",

@@ -6,16 +6,21 @@ import { useEffect, useRef, useState } from "react";
 import { LanguageSwitch } from "@/components/language-switch";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { demoSignIn, type DemoRole } from "@/lib/actions/demo";
 import { otpErrorCode } from "@/lib/auth-errors";
 import { INTENT_COOKIE } from "@/lib/cookies";
 import { prettyPhone } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
 
-export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; showTestHint: boolean }) {
+const DEMO_NUMBERS = { customer: "90000 00001", vendor: "90000 00002" } as const;
+const demoRoleFor = (digits: string): DemoRole | null =>
+  ({ "9000000001": "customer", "9000000002": "vendor", "9000000005": "admin" }) [digits] as DemoRole | undefined ?? null;
+
+export function LoginForm({ as, showTestHint, demo }: { as: "customer" | "vendor"; showTestHint: boolean; demo: boolean }) {
   const t = useTranslations();
   const locale = useLocale();
   const [step, setStep] = useState<"phone" | "code">("phone");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(demo ? DEMO_NUMBERS[as] : "");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -34,6 +39,8 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
       setError(t("errors.invalid_phone"));
       return;
     }
+    const demoRole = demo ? demoRoleFor(digits) : null;
+    if (demoRole) return demoLogin(demoRole);
     setBusy(true);
     setError(null);
     let error: unknown = null;
@@ -54,6 +61,26 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
     setStep("code");
     setWait(30);
     setTimeout(() => codeRef.current?.focus(), 50);
+  }
+
+  /** Demo numbers skip the SMS: show the code step, type the code in by itself, sign in. */
+  async function demoLogin(role: DemoRole) {
+    setError(null);
+    setStep("code");
+    setBusy(true);
+    for (let i = 1; i <= 6; i++) {
+      await new Promise((r) => setTimeout(r, 90));
+      setCode("123456".slice(0, i));
+    }
+    const res = await demoSignIn(role, locale === "kn" ? "kn" : "en");
+    if (!res.ok) {
+      setBusy(false);
+      setStep("phone");
+      setError(t(`errors.${res.error}`));
+      return;
+    }
+    // Full load so the server sees the new session cookies.
+    window.location.href = "/";
   }
 
   async function verify(value: string) {
@@ -111,11 +138,11 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
             <Phone className="size-7" />
           </span>
           <h1 className="text-2xl font-semibold">{t("login.title")}</h1>
-          <p className="text-muted-foreground">{t("login.hint")}</p>
+          <p className="text-muted-foreground">{demo ? t("login.demoHint") : t("login.hint")}</p>
           <label className="flex h-16 items-center gap-3 rounded-2xl border-2 border-input bg-card px-4 focus-within:border-primary">
             <span className="text-xl font-semibold text-muted-foreground">+91</span>
             <input
-              autoFocus
+              autoFocus={!demo}
               type="tel"
               inputMode="numeric"
               autoComplete="tel-national"
@@ -145,7 +172,9 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
             <MessageSquareText className="size-7" />
           </span>
           <h1 className="text-2xl font-semibold">{t("login.codeTitle")}</h1>
-          <p className="text-muted-foreground">{t("login.codeSentTo", { phone: prettyPhone(phone) })}</p>
+          <p className="text-muted-foreground">
+            {demo && demoRoleFor(phone.replace(/\D/g, "").slice(-10)) ? t("login.demoCodeFilled") : t("login.codeSentTo", { phone: prettyPhone(phone) })}
+          </p>
           <input
             ref={codeRef}
             type="text"

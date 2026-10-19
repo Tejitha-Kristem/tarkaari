@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getViewer } from "@/lib/data/viewer";
-import { showTestLogin } from "@/lib/site";
+import { demoLoginEnabled, showTestLogin } from "@/lib/site";
 import { redirect } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { LoginForm } from "./login-form";
@@ -15,5 +15,5 @@ export default async function LoginPage({ params, searchParams }: PageProps<"/[l
   setRequestLocale(locale as Locale);
   if (await getViewer()) redirect({ href: "/", locale: locale as Locale });
   const as = (await searchParams).as === "vendor" ? "vendor" : "customer";
-  return <LoginForm as={as} showTestHint={showTestLogin} />;
+  return <LoginForm as={as} showTestHint={showTestLogin} demo={demoLoginEnabled()} />;
 }

@@ -71,8 +71,8 @@ function authEnv() {
     GOTRUE_JWT_DEFAULT_GROUP_NAME: "authenticated",
     GOTRUE_JWT_ADMIN_ROLES: "service_role",
     GOTRUE_DISABLE_SIGNUP: "false",
-    GOTRUE_EXTERNAL_EMAIL_ENABLED: "false",
-    GOTRUE_EXTERNAL_PHONE_ENABLED: "true",
+    GOTRUE_EXTERNAL_EMAIL_ENABLED: "true", // as on Supabase; used by the demo login
+    GOTRUE_EXTERNAL_PHONE_ENABLED: process.env.STACK_PHONE ?? "true", // STACK_PHONE=false mimics a project without phone sign-in
     GOTRUE_SMS_AUTOCONFIRM: "false",
     GOTRUE_SMS_PROVIDER: "twilio",
     GOTRUE_SMS_TWILIO_ACCOUNT_SID: "ACplaceholder",
