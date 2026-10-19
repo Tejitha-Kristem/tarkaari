@@ -116,6 +116,12 @@ Storage buckets (`catalogue`, `shop-photos`, `id-photos`) are created by the mig
 3. **Settings → Functions → Function Region:** **Mumbai (bom1)**, the same region as the database.
 4. Deploy, then put the deployment URL into Supabase *Site URL* (step 5 above) and `NEXT_PUBLIC_SITE_URL`.
 
+### Check the setup
+
+Open `https://<your app>/api/health` after deploying. It shows yes/no for each piece (Supabase variables, phone sign-in, database, site URL, push, cron, server region) with what to fix. It never shows keys.
+
+The app runs in **Mumbai (`bom1`)**, set in `vercel.json`, next to a Mumbai Supabase project. If your Supabase project is in another region, change `regions` to the nearest Vercel region, or every tap waits on a round trip across the world.
+
 ### Scheduled jobs (`vercel.json`)
 
 | Job | IST | What it does |

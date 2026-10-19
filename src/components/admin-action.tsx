@@ -31,7 +31,7 @@ export function AdminAction({
       router.refresh();
     });
   const button = (
-    <Button size="sm" variant={variant} disabled={pending} onClick={confirm ? undefined : go}>
+    <Button size="sm" variant={variant} loading={pending} onClick={confirm ? undefined : go}>
       {children}
     </Button>
   );

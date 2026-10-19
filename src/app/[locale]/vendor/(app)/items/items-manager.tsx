@@ -175,7 +175,7 @@ function ItemRow({
               cancelLabel={t("common.cancel")}
               onConfirm={onHide}
             />
-            <Button disabled={busy || min <= 0} onClick={() => onSave(min, max, reason)}>
+            <Button loading={busy} disabled={min <= 0} onClick={() => onSave(min, max, reason)}>
               {t("common.save")}
             </Button>
           </div>
@@ -283,7 +283,7 @@ function TypePrices({ items, others, onDone }: { items: MyItem[]; others: Catalo
             <Button size="lg" variant="outline" onClick={() => setParsed(null)}>
               {t("list.edit")}
             </Button>
-            <Button size="lg" disabled={busy || !found.length} onClick={apply}>
+            <Button size="lg" loading={busy} disabled={!found.length} onClick={apply}>
               {t("vendorItems.update", { count: found.length })}
             </Button>
           </div>
@@ -363,7 +363,7 @@ function AddItems({ others, onDone }: { others: CatalogueRow[]; onDone: () => vo
           <Button size="lg" variant="outline" onClick={onDone}>
             {t("common.cancel")}
           </Button>
-          <Button size="lg" disabled={busy || !count} onClick={add}>
+          <Button size="lg" loading={busy} disabled={!count} onClick={add}>
             {t("vendorItems.update", { count })}
           </Button>
         </div>

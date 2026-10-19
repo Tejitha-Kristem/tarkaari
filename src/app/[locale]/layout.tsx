@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { INSTALL_CAPTURE } from "@/components/install-app";
+import { IntroSlides } from "@/components/intro-slides";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
@@ -58,6 +59,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <script dangerouslySetInnerHTML={{ __html: INSTALL_CAPTURE }} />
         <NextIntlClientProvider>
           {children}
+          <IntroSlides />
           <Toaster />
           <ServiceWorkerRegister />
         </NextIntlClientProvider>

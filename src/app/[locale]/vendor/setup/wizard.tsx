@@ -334,7 +334,7 @@ export function VendorSetupWizard({ userId, initialName, catalogue }: { userId: 
         <Button
           size="lg"
           className="w-full"
-          disabled={busy || !!stepError}
+          loading={busy} disabled={!!stepError}
           onClick={() => (step === "items" ? submit() : setI(i + 1))}
           title={stepError ?? undefined}
         >

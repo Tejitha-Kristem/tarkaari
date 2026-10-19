@@ -57,7 +57,7 @@ export function DuesBoard({ dues, shop, upiId }: { dues: Due[]; shop: string; up
       {unpaid.length > 0 && (
         <Button
           variant="dark"
-          disabled={pending}
+          loading={pending}
           onClick={() =>
             start(async () => {
               await Promise.all(unpaid.map((d) => remind(d.householdId)));
@@ -93,7 +93,7 @@ export function DuesBoard({ dues, shop, upiId }: { dues: Due[]; shop: string; up
               <div className="grid grid-cols-2 gap-2">
                 <ConfirmButton
                   trigger={
-                    <Button variant="outline-danger" disabled={pending}>
+                    <Button variant="outline-danger" loading={pending}>
                       {t("vendorPay.notReceived")}
                     </Button>
                   }
@@ -102,7 +102,7 @@ export function DuesBoard({ dues, shop, upiId }: { dues: Due[]; shop: string; up
                   cancelLabel={t("common.cancel")}
                   onConfirm={() => act(() => rejectPayment(d.pending!.id), t("vendorPay.rejectedToast"))}
                 />
-                <Button disabled={pending} onClick={() => act(() => confirmPayment(d.pending!.id), t("vendorPay.confirmedToast"))}>
+                <Button loading={pending} onClick={() => act(() => confirmPayment(d.pending!.id), t("vendorPay.confirmedToast"))}>
                   {t("vendorPay.confirm")}
                 </Button>
               </div>
@@ -125,7 +125,7 @@ export function DuesBoard({ dues, shop, upiId }: { dues: Due[]; shop: string; up
                 <Button type="button" variant="outline" onClick={() => setCashFor(null)}>
                   {t("common.cancel")}
                 </Button>
-                <Button type="submit" disabled={pending || !(Number(cash) > 0)}>
+                <Button type="submit" loading={pending} disabled={!(Number(cash) > 0)}>
                   {t("vendorPay.cashReceived")}
                 </Button>
               </div>
@@ -155,7 +155,7 @@ export function DuesBoard({ dues, shop, upiId }: { dues: Due[]; shop: string; up
                     </a>
                   </Button>
                 ) : (
-                  <Button variant="outline" disabled={pending} onClick={() => act(() => remind(d.householdId), t("vendorPay.remindedToast"))}>
+                  <Button variant="outline" loading={pending} onClick={() => act(() => remind(d.householdId), t("vendorPay.remindedToast"))}>
                     <BellRing aria-hidden />
                     {t("vendorPay.remind")}
                   </Button>
@@ -168,7 +168,7 @@ export function DuesBoard({ dues, shop, upiId }: { dues: Due[]; shop: string; up
             <div className="flex flex-col gap-2 border-t pt-3">
               {d.overLimit && !d.paused && <p className="text-sm font-semibold text-urgent">{t("vendorPay.overLimit")}</p>}
               {d.paused ? (
-                <Button variant="outline" disabled={pending} onClick={() => act(() => setHouseholdPaused(d.householdId, false), t("vendorPay.resumedToast", { flat: d.flat }))}>
+                <Button variant="outline" loading={pending} onClick={() => act(() => setHouseholdPaused(d.householdId, false), t("vendorPay.resumedToast", { flat: d.flat }))}>
                   <Play aria-hidden />
                   {t("vendorPay.resume")}
                 </Button>

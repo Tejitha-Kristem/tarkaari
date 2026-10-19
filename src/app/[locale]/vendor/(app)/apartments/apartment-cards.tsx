@@ -124,7 +124,7 @@ export function ApartmentCard({
             </Button>
             <ConfirmButton
               trigger={
-                <Button variant="outline" size="sm" disabled={pending}>
+                <Button variant="outline" size="sm" loading={pending}>
                   <RefreshCw aria-hidden />
                   {t("vendorApts.newLink")}
                 </Button>
@@ -183,7 +183,7 @@ export function ApartmentCard({
               {t("common.cancel")}
             </Button>
             <Button
-              disabled={pending}
+              loading={pending}
               onClick={() => {
                 act(() => saveApartmentTerms(apartmentId, form), t("common.saved"));
                 setEditing(false);
@@ -211,7 +211,7 @@ export function ApartmentCard({
               onConfirm={() => act(() => setApartmentActive(apartmentId, false))}
             />
           ) : (
-            <Button size="sm" disabled={pending} onClick={() => act(() => setApartmentActive(apartmentId, true))}>
+            <Button size="sm" loading={pending} onClick={() => act(() => setApartmentActive(apartmentId, true))}>
               {t("admin.activate")}
             </Button>
           )}
@@ -286,7 +286,7 @@ export function Holidays({ dates, min }: { dates: { date: string; label: string 
       </label>
       <Button
         variant="dark"
-        disabled={pending || !date}
+        loading={pending} disabled={!date}
         onClick={() => {
           act(() => addHoliday(date), t("common.saved"));
           setDate("");

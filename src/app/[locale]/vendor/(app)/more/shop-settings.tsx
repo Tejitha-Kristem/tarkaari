@@ -46,7 +46,7 @@ export function ShopSettings({ shopName, upiId, serviceCharge }: { shopName: str
         <Label htmlFor="charge">{t("vendorMore.serviceCharge")} (₹)</Label>
         <Input id="charge" inputMode="numeric" value={form.charge} onChange={(e) => setForm({ ...form, charge: e.target.value.replace(/\D/g, "") })} />
       </div>
-      <Button type="submit" disabled={pending || !dirty || badUpi || !form.shopName.trim()}>
+      <Button type="submit" loading={pending} disabled={!dirty || badUpi || !form.shopName.trim()}>
         {t("common.save")}
       </Button>
     </form>

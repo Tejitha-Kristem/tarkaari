@@ -68,13 +68,13 @@ export function PushToggle() {
   if (state === "unsupported") return <p className="text-sm text-muted-foreground">{t("pushUnsupported")}</p>;
   if (state === "on")
     return (
-      <Button variant="secondary" className="w-full justify-start" disabled={busy} onClick={turnOff}>
+      <Button variant="secondary" className="w-full justify-start" loading={busy} onClick={turnOff}>
         <BellRing aria-hidden />
         {t("pushOn")}
       </Button>
     );
   return (
-    <Button variant="dark" className="w-full justify-start" disabled={busy} onClick={turnOn}>
+    <Button variant="dark" className="w-full justify-start" loading={busy} onClick={turnOn}>
       <Bell aria-hidden />
       {t("enablePush")}
     </Button>

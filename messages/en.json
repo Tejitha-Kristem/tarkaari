@@ -158,7 +158,11 @@
     "invalid_input": "Please check what you entered.",
     "invite_invalid": "This link isn't working any more. Ask for a new one.",
     "invalid_phone": "Enter a 10-digit mobile number.",
-    "invalid_code": "That code didn't work. Check and try again."
+    "invalid_code": "That code didn't work. Check and try again.",
+    "auth_not_configured": "The app isn't connected to its database yet. (Admin: add the Supabase variables in Vercel, then redeploy.)",
+    "auth_phone_disabled": "Phone sign-in is switched off. (Admin: turn on Phone in Supabase → Authentication → Sign In / Providers.)",
+    "auth_sms_failed": "We couldn't send the SMS. Please try again in a while. (Admin: set up an SMS provider in Supabase, or add this number as a test number.)",
+    "auth_rate_limited": "Too many tries. Please wait a minute and try again."
   },
   "welcome": {
     "title": "Fresh vegetables for tomorrow, from your building's vendor",
@@ -169,7 +173,8 @@
     "sellSub": "I deliver to apartments",
     "how1": "Order by 5 pm",
     "how2": "Delivered next morning",
-    "how3": "Pay the vendor directly"
+    "how3": "Pay the vendor directly",
+    "subtitle": "Order by 5 pm · delivered next morning"
   },
   "login": {
     "title": "Your mobile number",
@@ -616,5 +621,18 @@
     "localBody": "You pay your building's vendor directly. No big company in between, no commission taken.",
     "wasteTitle": "Less food waste",
     "wasteBody": "Your vendor buys only what was ordered, so less goes unsold and thrown away."
+  },
+  "intro": {
+    "label": "How Tarkaari works",
+    "skip": "Skip",
+    "next": "Next",
+    "start": "Get started",
+    "howItWorks": "How it works",
+    "freshTitle": "Order by 5 pm, fresh next morning",
+    "freshBody": "Your building's own vendor buys at the morning market for your order and brings it to your door.",
+    "localTitle": "Support your local vendor",
+    "localBody": "Pay your vendor directly by UPI or cash. No big company in between, no commission taken.",
+    "ecoTitle": "Good for the planet",
+    "ecoBody": "No plastic packaging: vegetables come in reusable crates and bags. Vendors buy only what's ordered, so less food is wasted."
   }
 }

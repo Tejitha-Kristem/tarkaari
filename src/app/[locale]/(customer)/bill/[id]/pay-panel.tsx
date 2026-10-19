@@ -82,11 +82,11 @@ export function PayPanel({
           </Button>
         )}
         {(opened || !upiLink) && upiId && (
-          <Button size="lg" className="w-full shadow-raised" disabled={busy} onClick={() => claim("upi")}>
+          <Button size="lg" className="w-full shadow-raised" loading={busy} onClick={() => claim("upi")}>
             {t("iPaid")}
           </Button>
         )}
-        <Button variant="outline" className="w-full" disabled={busy} onClick={() => claim("cash")}>
+        <Button variant="outline" className="w-full" loading={busy} onClick={() => claim("cash")}>
           {t("paidCash")}
         </Button>
       </ActionBar>

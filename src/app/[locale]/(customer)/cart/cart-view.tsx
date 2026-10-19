@@ -153,7 +153,7 @@ export function CartView({
 
       <ActionBar aboveNav>
         {!canOrder && <p className="rounded-full bg-card px-4 py-2 text-center text-sm font-semibold shadow-card">{t("cart.closed")}</p>}
-        <Button size="lg" className="w-full shadow-raised" disabled={busy || !canOrder} onClick={submit}>
+        <Button size="lg" className="w-full shadow-raised" loading={busy} disabled={!canOrder} onClick={submit}>
           {hasOrder ? t("cart.update") : t("cart.place")} · {formatRange(lo + serviceCharge, hi + serviceCharge)}
         </Button>
       </ActionBar>

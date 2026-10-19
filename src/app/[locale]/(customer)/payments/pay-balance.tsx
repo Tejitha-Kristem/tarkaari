@@ -40,13 +40,13 @@ export function PayBalance({ amount, upiId, shopName }: { amount: number; upiId:
         upiId && (
           <>
             <p className="text-sm text-muted-foreground">{t("upiHelp", { upi: upiId })}</p>
-            <Button size="lg" disabled={busy} onClick={() => claim("upi")}>
+            <Button size="lg" loading={busy} onClick={() => claim("upi")}>
               {t("iPaid")}
             </Button>
           </>
         )
       )}
-      <Button variant="outline" disabled={busy} onClick={() => claim("cash")}>
+      <Button variant="outline" loading={busy} onClick={() => claim("cash")}>
         {t("paidCash")}
       </Button>
     </div>

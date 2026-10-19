@@ -178,11 +178,11 @@ export function PackForm({
       {editable && (
         <ActionBar aboveNav>
           {status === "packed" && (
-            <Button size="lg" className="w-full shadow-raised" disabled={pending} onClick={deliver}>
+            <Button size="lg" className="w-full shadow-raised" loading={pending} onClick={deliver}>
               {t("vendorPack.markDelivered")}
             </Button>
           )}
-          <Button size={status === "packed" ? "default" : "lg"} variant={status === "packed" ? "outline" : "default"} className="w-full" disabled={pending} onClick={pack}>
+          <Button size={status === "packed" ? "default" : "lg"} variant={status === "packed" ? "outline" : "default"} className="w-full" loading={pending} onClick={pack}>
             {status === "packed" ? t("common.save") : t("vendorPack.markPacked")}
           </Button>
         </ActionBar>

@@ -61,7 +61,7 @@ export function ApartmentPicker({ value, onPick }: { value: PickedApartment | nu
           <Input value={area} onChange={(e) => setArea(e.target.value)} maxLength={120} />
         </label>
         {error && <p role="alert" className="text-destructive">{error}</p>}
-        <Button size="lg" disabled={busy || name.trim().length < 2 || area.trim().length < 2} onClick={create}>
+        <Button size="lg" loading={busy} disabled={name.trim().length < 2 || area.trim().length < 2} onClick={create}>
           {t("onboarding.aptCreate")}
         </Button>
         <Button variant="ghost" onClick={() => setAdding(false)}>

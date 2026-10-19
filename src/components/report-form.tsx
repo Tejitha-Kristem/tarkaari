@@ -47,7 +47,7 @@ export function ReportForm() {
         maxLength={2000}
         className="rounded-2xl border border-input bg-card p-3 text-base outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
       />
-      <Button type="submit" disabled={busy || !text.trim()}>
+      <Button type="submit" loading={busy} disabled={!text.trim()}>
         {t("send")}
       </Button>
     </form>

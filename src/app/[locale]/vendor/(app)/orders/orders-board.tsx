@@ -105,7 +105,7 @@ export function OrdersBoard({ date, locked, groups }: { date: string; locked: bo
           <Button
             size="lg"
             className="w-full shadow-raised"
-            disabled={pending}
+            loading={pending}
             onClick={() =>
               start(async () => {
                 const res = await acceptOrders(date);

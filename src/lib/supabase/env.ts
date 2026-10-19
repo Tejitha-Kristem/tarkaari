@@ -6,8 +6,10 @@ export const isSupabaseConfigured = Boolean(supabaseUrl && supabasePublishableKe
 
 export function assertSupabaseConfigured() {
   if (!isSupabaseConfigured) {
-    throw new Error(
-      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (see .env.example).",
+    const error = new Error(
+      "Supabase is not configured. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (see .env.example), then redeploy: NEXT_PUBLIC_ values are fixed at build time.",
     );
+    error.name = "SupabaseNotConfigured";
+    throw error;
   }
 }

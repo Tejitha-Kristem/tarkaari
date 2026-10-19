@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { LanguageSwitch } from "@/components/language-switch";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { otpErrorCode } from "@/lib/auth-errors";
 import { INTENT_COOKIE } from "@/lib/cookies";
 import { prettyPhone } from "@/lib/format";
 import { createClient } from "@/lib/supabase/client";
@@ -35,13 +36,19 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
     }
     setBusy(true);
     setError(null);
-    const { error } = await createClient().auth.signInWithOtp({
-      phone: `+91${digits}`,
-      options: { data: { language: locale } },
-    });
+    let error: unknown = null;
+    try {
+      ({ error } = await createClient().auth.signInWithOtp({
+        phone: `+91${digits}`,
+        options: { data: { language: locale } },
+      }));
+    } catch (e) {
+      error = e;
+    }
     setBusy(false);
     if (error) {
-      setError(t("errors.generic"));
+      console.error("Sending the code failed:", error);
+      setError(t(`errors.${otpErrorCode(error, "send")}`));
       return;
     }
     setStep("code");
@@ -54,10 +61,16 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
     setBusy(true);
     setError(null);
     const digits = phone.replace(/\D/g, "").slice(-10);
-    const { error } = await createClient().auth.verifyOtp({ phone: `+91${digits}`, token: value, type: "sms" });
+    let error: unknown = null;
+    try {
+      ({ error } = await createClient().auth.verifyOtp({ phone: `+91${digits}`, token: value, type: "sms" }));
+    } catch (e) {
+      error = e;
+    }
     if (error) {
+      console.error("Checking the code failed:", error);
       setBusy(false);
-      setError(t("errors.invalid_code"));
+      setError(t(`errors.${otpErrorCode(error, "verify")}`));
       setCode("");
       return;
     }
@@ -116,7 +129,7 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
           </label>
           {error && <p role="alert" className="font-medium text-destructive">{error}</p>}
           {showTestHint && <p className="rounded-2xl bg-butter p-3 text-sm">{t("login.testHint")}</p>}
-          <Button type="submit" size="lg" className="mt-auto w-full" disabled={busy}>
+          <Button type="submit" size="lg" className="mt-auto w-full" loading={busy}>
             {t("login.sendCode")}
           </Button>
         </form>
@@ -157,7 +170,7 @@ export function LoginForm({ as, showTestHint }: { as: "customer" | "vendor"; sho
           >
             {wait > 0 ? t("login.resendIn", { seconds: wait }) : t("login.resend")}
           </button>
-          <Button type="submit" size="lg" className="mt-auto w-full" disabled={busy || code.length !== 6}>
+          <Button type="submit" size="lg" className="mt-auto w-full" loading={busy} disabled={code.length !== 6}>
             {t("login.verify")}
           </Button>
         </form>
