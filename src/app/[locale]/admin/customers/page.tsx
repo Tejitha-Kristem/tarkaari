@@ -37,7 +37,8 @@ export default async function AdminCustomers({ params, searchParams }: PageProps
         <button className="h-12 rounded-full bg-primary px-5 font-semibold text-primary-foreground">{t("common.search")}</button>
       </form>
       {(data ?? []).map((u) => {
-        const h = (u.households as unknown as { flat_no: string; block: string | null; apartment: { name: string } | null }[])[0];
+        // One household per user, so this embeds as a single row (or null), not a list.
+        const h = u.households as unknown as { flat_no: string; block: string | null; apartment: { name: string } | null } | null;
         return (
           <article key={u.id} className="flex items-center gap-3 rounded-[1.375rem] bg-card p-4 shadow-card">
             <div className="min-w-0 flex-1">
