@@ -1,26 +1,121 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+ * Accessibility baseline (see README "Design rules"):
+ *  - body text >= 18px: text-sm is 18px, text-base 20px; text-xs (16px) only for badges
+ *  - touch targets >= 56px: buttons default to h-14
+ *  - status uses colour AND shape (tick / cross), never colour alone
+ * Light theme only: one high-contrast look is easier to learn.
+ * Style: "Fresh market" (white, photo-first tiles, tomato-red accent).
+ */
 
 @theme inline {
+  --font-sans: var(--font-noto-sans), var(--font-noto-kannada), ui-sans-serif, system-ui, sans-serif;
+
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.4;
+  --text-sm: 1.125rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.25rem;
+  --text-base--line-height: 1.5;
+  --text-lg: 1.375rem;
+  --text-lg--line-height: 1.45;
+  --text-xl: 1.625rem;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 2rem;
+  --text-2xl--line-height: 1.25;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 1rem;
+
+  /* "Fresh market": white, photo-first, one tomato-red accent. */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  /* Tomato red, darkened to 4.7:1 against white so red text and white-on-red both pass AA. */
+  --primary: #d63a20;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f4;
+  --secondary-foreground: #1a1a1a;
+  --muted: #f7f7f7;
+  --muted-foreground: #5f5f5f;
+  /* Warm highlight for the booking banner and price tags. */
+  --accent: #fff4e5;
+  --accent-foreground: #8a3a00;
+
+  --destructive: #b4232a;
+  --destructive-foreground: #ffffff;
+  --success: #17803d;
+  --success-foreground: #ffffff;
+  --warning: #a14d00;
+  --warning-foreground: #ffffff;
+
+  --border: #ececec;
+  --input: #d9d9d9;
+  --ring: #2563eb;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/60;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground text-base antialiased;
+  }
+  :focus-visible {
+    outline-width: 3px;
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }

@@ -1,0 +1,98 @@
+{
+  "app": {
+    "name": "Tarakari",
+    "tagline": "Fresh vegetables from your building's vendor, delivered tomorrow morning",
+    "install": "Install app",
+    "installHint": "Add to your home screen to open it like an app"
+  },
+  "common": {
+    "continue": "Continue",
+    "back": "Back",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "close": "Close",
+    "undo": "Undo",
+    "save": "Save",
+    "retry": "Try again",
+    "loading": "Loading…",
+    "language": "Language",
+    "home": "Home",
+    "areYouSure": "Are you sure?",
+    "rupees": "₹{amount}",
+    "priceRange": "₹{min}–{max}",
+    "perUnit": "₹{min}–{max} / {unit}",
+    "add": "Add"
+  },
+  "language": {
+    "title": "Choose your language",
+    "en": "English",
+    "kn": "ಕನ್ನಡ",
+    "switchTo": "Change language"
+  },
+  "a11y": {
+    "readAloud": "Read aloud",
+    "stopReading": "Stop",
+    "increase": "Add one {unit} of {item}",
+    "decrease": "Remove one {unit} of {item}",
+    "quantity": "{qty} {unit}",
+    "available": "Available",
+    "notAvailable": "Not available",
+    "removed": "{item} removed",
+    "readAloudUnsupported": "Read aloud is not supported on this phone"
+  },
+  "booking": {
+    "open": "left to order for {date} morning",
+    "notYetOpen": "Booking for {date} opens at 10:00 am",
+    "locked": "Orders for {date} are locked. Booking opens again at 10:00 am.",
+    "timeLeft": "{hours}h {minutes}m"
+  },
+  "offline": {
+    "title": "No internet",
+    "body": "Check your mobile data or Wi-Fi, then try again."
+  },
+  "units": {
+    "kg": "kg",
+    "g": "g",
+    "piece": "piece",
+    "bunch": "bunch",
+    "packet": "packet"
+  },
+  "categories": {
+    "daily": "Daily needs",
+    "vegetables": "Vegetables",
+    "roots": "Roots & tubers",
+    "leafy": "Leafy greens",
+    "other": "Others"
+  },
+  "reasonTags": {
+    "morning_market": "Morning market rate",
+    "farm_fresh": "Farm fresh",
+    "organic": "Organic",
+    "seasonal": "Seasonal"
+  },
+  "orderStatus": {
+    "placed": "Placed",
+    "accepted": "Accepted",
+    "packed": "Packed",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled"
+  },
+  "kit": {
+    "title": "Design kit",
+    "intro": "Building blocks for every screen. Try them with your thumb.",
+    "openKit": "See the design kit",
+    "stepper": "Quantity stepper",
+    "status": "Availability marks",
+    "undoDemo": "Untick with undo",
+    "confirmDemo": "Confirm before cancel",
+    "cancelOrder": "Cancel order",
+    "cancelOrderQuestion": "Cancel your order for tomorrow?",
+    "keepOrder": "Keep order",
+    "orderCancelled": "Order cancelled",
+    "readAloudDemo": "Read aloud",
+    "readAloudText": "Your order for tomorrow: tomatoes, 1 kilogram. Onions, 2 kilograms. Estimated total, 120 to 150 rupees.",
+    "mainAction": "Main action"
+  }
+}
